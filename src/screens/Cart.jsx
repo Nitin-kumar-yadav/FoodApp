@@ -3,7 +3,9 @@ import React from 'react'
 import { useCart, useDispatchCart } from '../components/ContextReducer';
 import { MdDelete } from "react-icons/md";
 import { useSnackbar } from 'notistack';
+
 export default function Cart() {
+
     const { enqueueSnackbar } = useSnackbar();
     let data = useCart();
     let dispatch = useDispatchCart();
@@ -21,11 +23,11 @@ export default function Cart() {
     }
 
     const handleCheckOut = async () => {
+
         let userEmail = localStorage.getItem("userEmail");
-        // console.log(data,localStorage.getItem("userEmail"),new Date())
-        let response = await fetch("http://localhost:5000/api/auth/orderData", {
-            // credentials: 'include',
-            // Origin:"http://localhost:3000/login",
+        console.log(data, localStorage.getItem("userEmail"), new Date())
+        let response = await fetch("http://localhost:5000/api/foodData", {
+
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,12 +44,14 @@ export default function Cart() {
         }
     }
 
+
+
     let totalPrice = data.reduce((total, food) => total + food.price, 0)
     return (
         <div>
 
             {console.log(data)}
-            <div className='container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md' >
+            <div className='container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md'  >
                 <table className='table table-hover '>
                     <thead className=' text-success fs-4'>
                         <tr>
@@ -71,7 +75,7 @@ export default function Cart() {
                         ))}
                     </tbody>
                 </table>
-                <div><h1 className='fs-2'>Total Price: {totalPrice}/-</h1></div>
+                <div><h1 className='fs-2 text-success'>Total Price: {totalPrice}/-</h1></div>
                 <div>
                     <button className='btn bg-success mt-5 ' onClick={handleCheckOut} > Order Now </button>
                 </div>

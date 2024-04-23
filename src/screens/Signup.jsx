@@ -43,7 +43,7 @@ const Signup = () => {
 
 
     return (
-        <div className='container '>
+        <div className='container ' style={{ marginTop: "120px" }}>
             <form onSubmit={handleSubmit} >
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">User Name</label>

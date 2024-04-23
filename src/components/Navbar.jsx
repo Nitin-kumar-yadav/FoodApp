@@ -39,7 +39,7 @@ const Navbar = () => {
             </ul>
 
 
-            {(!localStorage.getItem('authToken',)) ?
+            {(!localStorage.getItem('authToken')) ?
               <div className="d-flex gap-2">
                 <Link className="btn bg-white text-success mx-1" to={'/login'} >Login</Link>
                 <Link className="btn bg-white text-success mx-1" to={'/signup'} >Sign UP</Link>

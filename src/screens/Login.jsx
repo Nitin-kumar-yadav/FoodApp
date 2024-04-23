@@ -31,6 +31,7 @@ const Login = () => {
                 enqueueSnackbar('Password not Matched', { variant: 'error' });
             }
             if (json.success) {
+                localStorage.setItem("userEmail", credentials.email);
                 enqueueSnackbar('Login Successfully', { variant: 'success' });
                 localStorage.setItem("authToken", json.authToken);
                 navigate('/')
@@ -46,7 +47,7 @@ const Login = () => {
     }
 
     return (
-        <div className='container '>
+        <div className='container ' style={{ marginTop: "120px" }}>
             <form onSubmit={handleSubmit} >
 
                 <div className="mb-3">

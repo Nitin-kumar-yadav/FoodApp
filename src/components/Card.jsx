@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatchCart, useCart } from './ContextReducer';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 const Card = (props) => {
 
-
+    const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -18,35 +19,36 @@ const Card = (props) => {
     const [qty, setQty] = useState(1)
 
     const handleAddToCart = async () => {
-        enqueueSnackbar(`${props.foodItem.name} Added to Cart`, { variant: "success" })
-        let food = []
-        for (const item of data) {
-            if (item.id === props.foodItem._id) {
-                food = item;
-
-                break;
-            }
+        if ((!localStorage.getItem('authToken'))) {
+            enqueueSnackbar("Your are not Logged in", { variant: "error" })
+            navigate('/login')
         }
-        console.log(food)
-        console.log(new Date())
-        if (food != []) {
-            if (food.size === size) {
-                await dispatch({ type: "UPDATE", id: props.foodItem._id, price: finalPrice, qty: qty })
+        else {
+            enqueueSnackbar(`${props.foodItem.name} Added to Cart`, { variant: "success" })
+            let food = []
+            for (const item of data) {
+                if (item.id === props.foodItem._id) {
+                    food = item;
+
+                    break;
+                }
+            }
+            console.log(food)
+            console.log(new Date())
+            if (food != []) {
+                if (food.size === size) {
+                    await dispatch({ type: "UPDATE", id: props.foodItem._id, price: finalPrice, qty: qty })
+                    return
+                }
+                else if (food.size !== size) {
+                    await dispatch({ type: "ADD", id: props.foodItem._id, name: props.foodItem.name, price: finalPrice, qty: qty, size: size, img: props.ImgSrc })
+                    console.log("Size different so simply ADD one more to the list")
+                    return
+                }
                 return
             }
-            else if (food.size !== size) {
-                await dispatch({ type: "ADD", id: props.foodItem._id, name: props.foodItem.name, price: finalPrice, qty: qty, size: size, img: props.ImgSrc })
-                console.log("Size different so simply ADD one more to the list")
-                return
-            }
-            return
+            await dispatch({ type: "ADD", id: props.foodItem._id, name: props.foodItem.name, price: finalPrice, qty: qty, size: size })
         }
-
-        await dispatch({ type: "ADD", id: props.foodItem._id, name: props.foodItem.name, price: finalPrice, qty: qty, size: size })
-
-
-
-
     }
 
     let finalPrice = qty * parseInt(options[size]);

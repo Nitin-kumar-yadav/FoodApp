@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
 import { CartProvider } from './components/ContextReducer';
+import Navbar from './components/Navbar';
 
 
 
@@ -14,6 +15,7 @@ function App() {
     <CartProvider>
       <Router>
         <div>
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path='/login' element={<Login />} />
